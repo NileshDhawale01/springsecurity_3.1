@@ -1,7 +1,9 @@
 package com.nsd.datasource.services.impl;
 
+import static com.nsd.datasource.mappers.ProductMapper.toProduct;
+import static com.nsd.datasource.mappers.ProductMapper.toProductDTO;
+import static com.nsd.datasource.mappers.ProductMapper.toProductDTOs;
 
-import static com.nsd.datasource.mappers.ProductMapper.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,11 +16,11 @@ import com.nsd.datasource.repositoryes.ProductRepo;
 import com.nsd.datasource.services.ProductService;
 
 @Service
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	private ProductRepo productRepo;
-	
+
 	@Override
 	public Optional<ProductsDto> saveProduct(ProductsDto productsDto) {
 		Products products = toProduct.apply(productsDto).get();
