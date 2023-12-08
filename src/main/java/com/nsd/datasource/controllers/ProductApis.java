@@ -116,7 +116,7 @@ public class ProductApis {
 	public ResponseEntity<Map<Object, Object>> getAllProducts(){
 		Map<Object, Object> map = new HashMap<>();
 		map.put("Data", productService.getAllProducts());
-		map.put("Success", true);
+		map.put("Success", true); 
 		return new ResponseEntity<>(map,HttpStatus.OK);
 	}
 }
