@@ -1,6 +1,7 @@
 package com.nsd.datasource.controllers;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -77,5 +78,14 @@ public class ProductApis {
 		} else {
 			throw new UsernameNotFoundException(authReq.getName());
 		}
+	}
+	
+	@GetMapping("/latest")
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+	public ResponseEntity<Map<Object, Object>> getLetestNews(){
+		Map<Object, Object> map = new HashMap<>();
+		map.put("Data", "this is the common data for ADMIN and USER");
+		map.put("success", true);
+		return new ResponseEntity<>(map,HttpStatus.OK);
 	}
 }
