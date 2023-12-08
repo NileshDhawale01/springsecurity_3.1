@@ -1,7 +1,6 @@
 package com.nsd.datasource.controllers;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nsd.datasource.dto.AuthReq;
+import com.nsd.datasource.dto.ProductsDto;
 import com.nsd.datasource.entities.UserInfo;
 import com.nsd.datasource.services.JwtService;
 import com.nsd.datasource.services.UserService;
@@ -85,6 +85,14 @@ public class ProductApis {
 	public ResponseEntity<Map<Object, Object>> getLetestNews(){
 		Map<Object, Object> map = new HashMap<>();
 		map.put("Data", "this is the common data for ADMIN and USER");
+		map.put("success", true);
+		return new ResponseEntity<>(map,HttpStatus.OK);
+	}
+	
+	@PostMapping("/saveproduct")
+	public ResponseEntity<Map<Object, Object>> saveProduct(@RequestBody ProductsDto productsDto){
+		Map<Object, Object> map = new HashMap<>();
+		map.put("Data", map);
 		map.put("success", true);
 		return new ResponseEntity<>(map,HttpStatus.OK);
 	}
