@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import com.nsd.datasource.dto.AuthReq;
 import com.nsd.datasource.dto.ProductsDto;
 import com.nsd.datasource.entities.UserInfo;
 import com.nsd.datasource.services.JwtService;
+import com.nsd.datasource.services.ProductService;
 import com.nsd.datasource.services.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -34,6 +36,8 @@ public class ProductApis {
 	private final JwtService jwtService;
 
 	private final AuthenticationManager authenticationManager;
+	
+	private final ProductService productService;
 
 	@GetMapping
 	public ResponseEntity<Map<Object, Object>> getData() {
@@ -90,10 +94,29 @@ public class ProductApis {
 	}
 	
 	@PostMapping("/saveproduct")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<Map<Object, Object>> saveProduct(@RequestBody ProductsDto productsDto){
 		Map<Object, Object> map = new HashMap<>();
-		map.put("Data", map);
+		map.put("Data", productService.saveProduct(productsDto));
 		map.put("success", true);
+		return new ResponseEntity<>(map,HttpStatus.OK);
+	}
+	
+	@GetMapping("/{id}")
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+	public ResponseEntity<Map<Object, Object>> getProductById(@PathVariable Integer id){
+		Map<Object, Object> map = new HashMap<>();
+		map.put("Data", productService.getProductById(id));
+		map.put("Success", true);
+		return new ResponseEntity<>(map,HttpStatus.OK);
+	}
+	
+	@GetMapping("/allproduct")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<Map<Object, Object>> getAllProducts(){
+		Map<Object, Object> map = new HashMap<>();
+		map.put("Data", productService.getAllProducts());
+		map.put("Success", true);
 		return new ResponseEntity<>(map,HttpStatus.OK);
 	}
 }
