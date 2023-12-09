@@ -1,5 +1,6 @@
 package com.nsd.datasource.controllers;
 
+import static com.nsd.datasource.contants.ProductConstants.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/product")
+@RequestMapping(PRODUCT)
 public class ProductApis {
 
 	private final UserService service;
@@ -36,44 +37,44 @@ public class ProductApis {
 	private final JwtService jwtService;
 
 	private final AuthenticationManager authenticationManager;
-	
+
 	private final ProductService productService;
 
 	@GetMapping
 	public ResponseEntity<Map<Object, Object>> getData() {
 		Map<Object, Object> map = new HashMap<>();
-		map.put("Data", "This is the data " + Math.random() * 100 / 100);
-		map.put("success", true);
+		map.put(DATA, "This is the data " + Math.random() * 100 / 100);
+		map.put(SUCCESS, true);
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 
-	@GetMapping("/user")
-	@PreAuthorize("hasAuthority('USER')")
+	@GetMapping(USERURL)
+	@PreAuthorize(USER_AUTHORITY)
 	public ResponseEntity<Map<Object, Object>> userData() {
 		Map<Object, Object> map = new HashMap<>();
-		map.put("Data", "Sakshi is the simple USER.");
-		map.put("success", true);
-		return new ResponseEntity<Map<Object, Object>>(map, HttpStatus.OK);
-	}
-
-	@GetMapping("/admin")
-	@PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<Map<Object, Object>> adminData() {
-		Map<Object, Object> map = new HashMap<>();
-		map.put("Data", "Niesh is the ADMIN.");
-		map.put("success", true);
-		return new ResponseEntity<Map<Object, Object>>(map, HttpStatus.OK);
-	}
-
-	@PostMapping("/save")
-	public ResponseEntity<Map<Object, Object>> saveUser(@RequestBody UserInfo userInfo) {
-		Map<Object, Object> map = new HashMap<>();
-		map.put("Data", service.saveUser(userInfo));
-		map.put("success", true);
+		map.put(DATA, "Sakshi is the simple USER.");
+		map.put(SUCCESS, true);
 		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 
-	@PostMapping("/authenticate")
+	@GetMapping(ADMINURL)
+	@PreAuthorize(ADMIN_AUTHORITY)
+	public ResponseEntity<Map<Object, Object>> adminData() {
+		Map<Object, Object> map = new HashMap<>();
+		map.put(DATA, "Niesh is the ADMIN.");
+		map.put(SUCCESS, true);
+		return new ResponseEntity<>(map, HttpStatus.OK);
+	}
+
+	@PostMapping(SAVEUSER)
+	public ResponseEntity<Map<Object, Object>> saveUser(@RequestBody UserInfo userInfo) {
+		Map<Object, Object> map = new HashMap<>();
+		map.put(DATA, service.saveUser(userInfo));
+		map.put(SUCCESS, true);
+		return new ResponseEntity<>(map, HttpStatus.OK);
+	}
+
+	@PostMapping(ATHENTICATE)
 	public String authonticateAndToken(@RequestBody AuthReq authReq) {
 		Authentication manager = authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(authReq.getName(), authReq.getPassword()));
@@ -83,40 +84,40 @@ public class ProductApis {
 			throw new UsernameNotFoundException(authReq.getName());
 		}
 	}
-	
-	@GetMapping("/latest")
-	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-	public ResponseEntity<Map<Object, Object>> getLetestNews(){
+
+	@GetMapping(LATEST)
+	@PreAuthorize(USER_ADMIN_AUTHORITY)
+	public ResponseEntity<Map<Object, Object>> getLetestNews() {
 		Map<Object, Object> map = new HashMap<>();
-		map.put("Data", "this is the common data for ADMIN and USER");
-		map.put("success", true);
-		return new ResponseEntity<>(map,HttpStatus.OK);
+		map.put(DATA, "this is the common data for ADMIN and USER");
+		map.put(SUCCESS, true);
+		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
-	
-	@PostMapping("/saveproduct")
-	@PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<Map<Object, Object>> saveProduct(@RequestBody ProductsDto productsDto){
+
+	@PostMapping(SAVEPRODUCT)
+	@PreAuthorize(ADMIN_AUTHORITY)
+	public ResponseEntity<Map<Object, Object>> saveProduct(@RequestBody ProductsDto productsDto) {
 		Map<Object, Object> map = new HashMap<>();
-		map.put("Data", productService.saveProduct(productsDto));
-		map.put("success", true);
-		return new ResponseEntity<>(map,HttpStatus.OK);
+		map.put(DATA, productService.saveProduct(productsDto));
+		map.put(SUCCESS, true);
+		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
-	
-	@GetMapping("/{id}")
-	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-	public ResponseEntity<Map<Object, Object>> getProductById(@PathVariable Integer id){
+
+	@GetMapping(ID)
+	@PreAuthorize(USER_ADMIN_AUTHORITY)
+	public ResponseEntity<Map<Object, Object>> getProductById(@PathVariable Integer id) {
 		Map<Object, Object> map = new HashMap<>();
-		map.put("Data", productService.getProductById(id));
-		map.put("Success", true);
-		return new ResponseEntity<>(map,HttpStatus.OK);
+		map.put(DATA, productService.getProductById(id));
+		map.put(SUCCESS, true);
+		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
-	
-	@GetMapping("/allproduct")
-	@PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<Map<Object, Object>> getAllProducts(){
+
+	@GetMapping(ALLPRODUCTS)
+	@PreAuthorize(ADMIN_AUTHORITY)
+	public ResponseEntity<Map<Object, Object>> getAllProducts() {
 		Map<Object, Object> map = new HashMap<>();
-		map.put("Data", productService.getAllProducts());
-		map.put("Success", true); 
-		return new ResponseEntity<>(map,HttpStatus.OK);
+		map.put(DATA, productService.getAllProducts());
+		map.put(SUCCESS, true);
+		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 }
