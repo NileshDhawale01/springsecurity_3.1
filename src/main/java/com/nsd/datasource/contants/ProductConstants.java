@@ -29,9 +29,20 @@ public class ProductConstants {
 	
 	public static final String  SUCCESS = "success";
 	
+	public static final String MESSAGE = "message";
+	
+	public static final String CUSTOM_MESSAGE = "Custom Msg";
+	
+	public static final String CATAGORY = SEPARATOR + "catagory";
+	
+	public static final String ALLCATAGORY = SEPARATOR + "all";
+	
+	public static final String SAVE = SEPARATOR + "save";
+	
 	public static final String ADMIN_AUTHORITY = "hasAuthority('ADMIN')";
 	
 	public static final String USER_AUTHORITY = "hasAuthority('USER')";
 	
 	public static final String USER_ADMIN_AUTHORITY = "hasAuthority('ADMIN') or hasAuthority('USER')";
+	
 }

@@ -1,5 +1,14 @@
 package com.nsd.datasource.controllers;
 
+import static com.nsd.datasource.contants.ProductConstants.ADMIN_AUTHORITY;
+import static com.nsd.datasource.contants.ProductConstants.ALLCATAGORY;
+import static com.nsd.datasource.contants.ProductConstants.CATAGORY;
+import static com.nsd.datasource.contants.ProductConstants.DATA;
+import static com.nsd.datasource.contants.ProductConstants.ID;
+import static com.nsd.datasource.contants.ProductConstants.SAVE;
+import static com.nsd.datasource.contants.ProductConstants.SUCCESS;
+import static com.nsd.datasource.contants.ProductConstants.USER_ADMIN_AUTHORITY;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,36 +27,36 @@ import com.nsd.datasource.dto.Catagory;
 import com.nsd.datasource.services.CatagoryService;
 
 @RestController
-@RequestMapping("/catagory")
+@RequestMapping(CATAGORY)
 public class CatagotyApis {
 
 	@Autowired
 	private CatagoryService catagoryService;
-	
-	@GetMapping("/all")
-	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-	public ResponseEntity<Map<Object, Object>> getAllCatagorys(){
+
+	@GetMapping(ALLCATAGORY)
+	@PreAuthorize(USER_ADMIN_AUTHORITY)
+	public ResponseEntity<Map<Object, Object>> getAllCatagorys() {
 		Map<Object, Object> map = new HashMap<>();
-		map.put("Data", catagoryService.getAllCatagorys());
-		map.put("Success", true);
-		return new ResponseEntity<>(map,HttpStatus.OK);
+		map.put(DATA, catagoryService.getAllCatagorys());
+		map.put(SUCCESS, true);
+		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
-	
-	@GetMapping("/{id}")
-	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-	public ResponseEntity<Map<Object, Object>> getChatagoryById(@PathVariable Integer id){
+
+	@GetMapping(ID)
+	@PreAuthorize(USER_ADMIN_AUTHORITY)
+	public ResponseEntity<Map<Object, Object>> getChatagoryById(@PathVariable Integer id) {
 		Map<Object, Object> map = new HashMap<>();
-		map.put("Data", catagoryService.getCatagoryById(id));
-		map.put("success", "");
-		return new ResponseEntity<>(map,HttpStatus.OK);
+		map.put(DATA, catagoryService.getCatagoryById(id));
+		map.put(SUCCESS, true);
+		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
-	
-	@PostMapping("/save")
-	@PreAuthorize("hasAuthority('ADMIN')")
-	public ResponseEntity<Map<Object, Object>> saveChatagory(@RequestBody Catagory catagory){
+
+	@PostMapping(SAVE)
+	@PreAuthorize(ADMIN_AUTHORITY)
+	public ResponseEntity<Map<Object, Object>> saveChatagory(@RequestBody Catagory catagory) {
 		Map<Object, Object> map = new HashMap<>();
-		map.put("Data", catagoryService.saveCatagory(catagory));
-		map.put("success", true);
-		return new ResponseEntity<>(map,HttpStatus.OK);
+		map.put(DATA, catagoryService.saveCatagory(catagory));
+		map.put(SUCCESS, true);
+		return new ResponseEntity<>(map, HttpStatus.OK);
 	}
 }
