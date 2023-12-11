@@ -9,15 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductsDto {
+public class Catagory {
 
-	private Integer productId;
-
-	private String productName;
-
-	private String productDesc;
-
-	private Float productPrice;
-
-	private Catagory catagory;
+	private Integer id;
+	
+	private String name;
 }

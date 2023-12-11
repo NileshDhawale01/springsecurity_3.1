@@ -1,14 +1,11 @@
 package com.nsd.datasource.entities;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,19 +16,15 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Products {
+@Table(name = "catagorys")
+public class CatagoryMaster {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer productId;
+	private Integer id;
 	
-	private String productName;
+	private String name;
 	
-	private String productDesc;
-	
-	private Float productPrice;
-	
-	@OneToOne(cascade = {CascadeType.MERGE},fetch = FetchType.EAGER)
-	@JoinColumn(name = "catagory_id")
-	private CatagoryMaster catagoryMaster;
+	@OneToOne(mappedBy = "catagoryMaster")
+	private Products products;
 }
